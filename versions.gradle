@@ -11,6 +11,10 @@ versions.navigation = "1.0.0-alpha07"
 versions.constraint_layout = "1.1.3"
 versions.app_compat_v7 = "28.0.0"
 versions.androidx_support = "1.0.0"
+//versions.androidx_lifecycle = "2.0.0"
+versions.lifecycle = '1.0.0'
+versions.lifecycle_runtime = '1.0.3'
+versions.lifecycle_java8 = '1.0.0'
 versions.kotlin = "1.3.0"
 
 def constraint = [:]
@@ -28,6 +32,18 @@ navigation.ui = "android.arch.navigation:navigation-ui:$versions.navigation"
 navigation.fragment_ktx = "android.arch.navigation:navigation-fragment-ktx:$versions.navigation"
 navigation.ui_ktx = "android.arch.navigation:navigation-ui-ktx:$versions.navigation"
 deps.navigation = navigation
+
+def lifecycle = [:]
+lifecycle.extensions = "android.arch.lifecycle:extensions:$versions.lifecycle"
+lifecycle.runtime = "android.arch.lifecycle:runtime: $versions.lifecycle_runtime"
+lifecycle.compiler = "android.arch.lifecycle:compiler: $versions.lifecycle"
+lifecycle.java8 = "android.arch.lifecycle:common-java8:$versions.lifecycle_java8"
+
+//lifecycle.androidx_runtime = "androidx.lifecycle:lifecycle-runtime:$versions.lifecycle"
+//lifecycle.androidx_extensions = "androidx.lifecycle:lifecycle-extensions:$versions.lifecycle"
+//lifecycle.androidx_java8 = "androidx.lifecycle:lifecycle-common-java8:$versions.lifecycle"
+//lifecycle.androidx_compiler = "androidx.lifecycle:lifecycle-compiler:$versions.lifecycle"
+deps.lifecycle = lifecycle
 
 def kotlin = [:]
 kotlin.stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlin"
