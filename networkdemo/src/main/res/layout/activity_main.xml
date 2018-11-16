@@ -36,5 +36,21 @@
                 android:gravity="center"
                 android:text="basic by Call"/>
 
+        <Button
+                android:id="@+id/basic_three"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/basic_two"
+                android:gravity="center"
+                android:text="basic by RxJava Frame"/>
+
+        <Button
+                android:id="@+id/basic_four"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/basic_three"
+                android:gravity="center"
+                android:text="basic by common Frame"/>
+
     </android.support.constraint.ConstraintLayout>
 </layout>

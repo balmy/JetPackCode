@@ -1,5 +1,8 @@
 package com.jetpack.network
 
+import io.reactivex.ObservableTransformer
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -18,6 +21,7 @@ class ApiHelper {
          * url should end with "/"
          */
         private const val BASE_URL = "https://jsonplaceholder.typicode.com/"
+
         fun create(): ApiService = create(HttpUrl.parse(BASE_URL)!!)
 
         fun create(baseUrl: String): ApiService = create(HttpUrl.parse(baseUrl)!!)
@@ -42,5 +46,18 @@ class ApiHelper {
                 .build()
                 .create(ApiService::class.java)
         }
+
+        /**
+         * write less code
+         */
+        fun <T> compose(): ObservableTransformer<T, T> {
+            return ObservableTransformer { observable ->
+                observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+            }
+        }
     }
+
+
+
+
 }

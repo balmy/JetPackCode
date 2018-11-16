@@ -13,4 +13,7 @@ interface ApiService {
 
     @GET("todos/1")
     fun getBasicByCall(): Call<JsonModelOne>
+
+    @GET("users/datas")
+    fun getBasicByFrame(): Observable<ResponseWrapper<ContentModel>>
 }
