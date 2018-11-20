@@ -1,1 +1,1 @@
-include ':app', ':libbase', ':lifecycledemo', ':datebindingdemo', ':networkdemo'
+include ':app', ':libbase', ':lifecycledemo', ':datebindingdemo', ':networkdemo', ':pagingdemo'
