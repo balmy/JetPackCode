@@ -2,11 +2,17 @@ package com.jetpack.network.common
 
 import android.text.TextUtils
 import android.util.Log
+import com.alibaba.fastjson.JSONObject
+import com.google.gson.Gson
 import com.jetpack.network.ResponseWrapper
 import com.jetpack.network.Tag
+import io.reactivex.Observable
+import io.reactivex.ObservableSource
+import io.reactivex.ObservableTransformer
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
+import io.reactivex.functions.Function
 import io.reactivex.schedulers.Schedulers
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
@@ -17,9 +23,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 /**
- * @author Create by yc.li09 on 2018/11/19.
+ * @author Create by yc.li09 on 2018/11/29.
  */
-class ApiComHelper {
+class RxApiHelper {
     companion object {
         private const val BASE_URL = "https://jsonplaceholder.typicode.com/"
 
@@ -50,7 +56,7 @@ class ApiComHelper {
                 .create(ApiComService::class.java)
         }
 
-        fun <T>send(request: BaseRequest, callback: RequestComCallback<ResponseWrapper<T>>) {
+        fun <T> rxSend(request: RxBaseRequest) {
             create(request.baseUrl)
                 .getBasicByEncapsulate(request.urlPath(), request.urlParams())
                 .subscribeOn(Schedulers.io())
@@ -58,9 +64,10 @@ class ApiComHelper {
                 .subscribe(object : Observer<com.alibaba.fastjson.JSONObject> {
                     override fun onNext(t: com.alibaba.fastjson.JSONObject) {
                         Log.d(Tag.COMMON_LOG, "onNext " + t.toString())
-                        val response : ResponseWrapper<T> = t.toJavaObject(callback.type)
-//                        Log.d(Tag.COMMON_LOG, "onNext model " + response.toString())
-                        callback?.success(response)
+//                        val response : T = t.toJavaObject(request.type)
+                        var response: T = Gson().fromJson(t.toJSONString(), request.type)
+                        Log.d(Tag.COMMON_LOG, "onNext model " + response.toString())
+//                        callback?.success(response)
                     }
 
                     override fun onComplete() {
@@ -73,13 +80,51 @@ class ApiComHelper {
 
                     override fun onError(e: Throwable) {
                         Log.d(Tag.COMMON_LOG, "onError")
-                        callback?.failure(true, e?.message)
+//                        callback?.failure(true, e?.message)
                     }
 
                 })
         }
 
+        fun <T> rxSendObservable(request: RxBaseRequest): Observable<JSONObject> {
+            return create(request.baseUrl)
+                .getBasicByEncapsulate(request.urlPath(), request.urlParams())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(handleResult())
+//                .subscribe(object : Observer<com.alibaba.fastjson.JSONObject> {
+//                    override fun onNext(t: com.alibaba.fastjson.JSONObject) {
+//                        Log.d(Tag.COMMON_LOG, "onNext " + t.toString())
+////                        val response : T = t.toJavaObject(request.type)
+//                        var response : T =  Gson().fromJson(t.toJSONString(),request.type)
+//                        Log.d(Tag.COMMON_LOG, "onNext model " + response.toString())
+////                        callback?.success(response)
+//                    }
+//
+//                    override fun onComplete() {
+//                        Log.d(Tag.COMMON_LOG, "onComplete")
+//                    }
+//
+//                    override fun onSubscribe(d: Disposable) {
+//                        Log.d(Tag.COMMON_LOG, "onSubscribe")
+//                    }
+//
+//                    override fun onError(e: Throwable) {
+//                        Log.d(Tag.COMMON_LOG, "onError")
+////                        callback?.failure(true, e?.message)
+//                    }
+//
+//                })
+        }
 
+        private fun handleResult(): ObservableTransformer<in JSONObject, out JSONObject>? {
+            return ObservableTransformer { upstream ->
+                upstream.onErrorResumeNext(Function<Throwable, ObservableSource<JSONObject>> { t -> Observable.error(t) })
+                .flatMap { t -> Observable.just(t) }
+            }
+        }
     }
 
 }
+
+

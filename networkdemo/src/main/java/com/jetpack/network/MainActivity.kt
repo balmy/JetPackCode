@@ -44,8 +44,27 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun basicFiveRequest() {
-//        val request = RxTestRequest<JsonModelOne>()
-//        ApiComHelper.rxSend<JsonModelOne>(request)
+        val request = RxTestRequest()
+//        RxApiHelper.rxSend<JsonModelOne>(request)
+        RxApiHelper.rxSendObservable<JsonModelOne>(request)
+            .subscribe(object: Observer<JSONObject>{
+                override fun onComplete() {
+                    Log.d(Tag.COMMON_LOG, "main onComplete")
+                }
+
+                override fun onSubscribe(d: Disposable) {
+                    Log.d(Tag.COMMON_LOG, "main onSubscribe")
+                }
+
+                override fun onNext(t: JSONObject) {
+                    Log.d(Tag.COMMON_LOG, "main onNext " + t.toString())
+                }
+
+                override fun onError(e: Throwable) {
+                    Log.d(Tag.COMMON_LOG, "main onError")
+                }
+
+            })
     }
 
     private fun basicFourRequest() {
