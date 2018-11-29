@@ -52,6 +52,27 @@ kotlin.plugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
 //kotlin.allopen = "org.jetbrains.kotlin:kotlin-allopen:$versions.kotlin"
 deps.kotlin = kotlin
 
+
+def network = [:]
+network.retrofit = "com.squareup.retrofit2:retrofit:2.4.0"
+network.retrofit_rxjava = "com.squareup.retrofit2:adapter-rxjava2:2.2.0"
+network.retrofit_converter_gson = "com.squareup.retrofit2:converter-gson:2.1.0"
+network.logging = "com.squareup.okhttp3:logging-interceptor:3.9.1"
+deps.network = network
+
+def rxjava =[:]
+rxjava.rxjava = "io.reactivex.rxjava2:rxjava:2.2.3"
+rxjava.rxandroid = "io.reactivex.rxjava2:rxandroid:2.1.0"
+deps.rxjava = rxjava
+
+
+def json = [:]
+json.fastjson = "com.alibaba:fastjson:1.2.51"
+deps.json = json
+
+deps.kotlin_reflect = "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+
+
 ext.deps = deps
 
 def addRepos(RepositoryHandler handler) {

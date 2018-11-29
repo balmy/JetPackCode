@@ -5,16 +5,13 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
-import com.jetpack.network.common.ApiComHelper
-import com.jetpack.network.common.BaseRequest
-import com.jetpack.network.common.TestRequest
 import com.jetpack.network.databinding.ActivityMainBinding
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import com.alibaba.fastjson.JSONObject
-import com.jetpack.network.common.RequestComCallback
+import com.jetpack.network.common.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -30,6 +27,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         binding.basicTwo.setOnClickListener(this)
         binding.basicThree.setOnClickListener(this)
         binding.basicFour.setOnClickListener(this)
+        binding.basicFive.setOnClickListener(this)
     }
 
     override fun onClick(p0: View?) {
@@ -38,10 +36,16 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             R.id.basic_two -> basicTwoRequest()
             R.id.basic_three -> basicThreeRequest()
             R.id.basic_four -> basicFourRequest()
+            R.id.basic_five -> basicFiveRequest()
             else -> {
 
             }
         }
+    }
+
+    private fun basicFiveRequest() {
+//        val request = RxTestRequest<JsonModelOne>()
+//        ApiComHelper.rxSend<JsonModelOne>(request)
     }
 
     private fun basicFourRequest() {

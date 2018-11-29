@@ -1,7 +1,7 @@
 package com.jetpack.lab
 
 import android.os.Bundle
-import com.jetpack.base.activity.BaseActivity
+import com.jetpack.base.ui.BaseActivity
 
 class MainActivity : BaseActivity() {
 

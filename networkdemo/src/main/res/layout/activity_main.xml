@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/basic_two"
                 android:gravity="center"
-                android:text="basic by RxJava Frame"/>
+                android:text="basic by RxJava"/>
 
         <Button
                 android:id="@+id/basic_four"
@@ -50,7 +50,15 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/basic_three"
                 android:gravity="center"
-                android:text="basic by common Frame"/>
+                android:text="basic by common"/>
+
+        <Button
+                android:id="@+id/basic_five"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/basic_four"
+                android:gravity="center"
+                android:text="basic by another common"/>
 
     </android.support.constraint.ConstraintLayout>
 </layout>

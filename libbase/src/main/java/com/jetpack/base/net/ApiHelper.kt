@@ -1,9 +1,11 @@
-package com.jetpack.network.common
+package com.jetpack.base.net
 
 import android.text.TextUtils
 import android.util.Log
-import com.jetpack.network.ResponseWrapper
-import com.jetpack.network.Tag
+import com.jetpack.base.net.ResponseWrapper
+import com.jetpack.base.Tag
+import com.jetpack.network.common.BaseRequest
+import com.jetpack.network.common.RequestComCallback
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -19,21 +21,21 @@ import java.util.concurrent.TimeUnit
 /**
  * @author Create by yc.li09 on 2018/11/19.
  */
-class ApiComHelper {
+class ApiHelper {
     companion object {
         private const val BASE_URL = "https://jsonplaceholder.typicode.com/"
 
-        fun create(): ApiComService =
+        fun create(): ApiService =
             create(HttpUrl.parse(BASE_URL)!!)
 
-        fun create(baseUrl: String): ApiComService {
+        fun create(baseUrl: String): ApiService {
             if (TextUtils.isEmpty(baseUrl)) {
                 return create(HttpUrl.parse(BASE_URL)!!)
             }
             return create(HttpUrl.parse(baseUrl)!!)
         }
 
-        private fun create(httpUrl: HttpUrl): ApiComService {
+        private fun create(httpUrl: HttpUrl): ApiService {
 
             val client = OkHttpClient.Builder()
                 .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
@@ -47,12 +49,12 @@ class ApiComHelper {
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
-                .create(ApiComService::class.java)
+                .create(ApiService::class.java)
         }
 
         fun <T>send(request: BaseRequest, callback: RequestComCallback<ResponseWrapper<T>>) {
             create(request.baseUrl)
-                .getBasicByEncapsulate(request.urlPath(), request.urlParams())
+                .getDatas(request.urlPath(), request.urlParams())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Observer<com.alibaba.fastjson.JSONObject> {
@@ -77,36 +79,9 @@ class ApiComHelper {
                     }
 
                 })
-        }
 
-//        fun <T>rxSend(request: RxBaseRequest<T>) {
-//            create(request.baseUrl)
-//                .getBasicByEncapsulate(request.urlPath(), request.urlParams())
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(object : Observer<com.alibaba.fastjson.JSONObject> {
-//                    override fun onNext(t: com.alibaba.fastjson.JSONObject) {
-//                        Log.d(Tag.COMMON_LOG, "onNext " + t.toString())
-//                        val response : ResponseWrapper<T> = t.toJavaObject(request.type)
-//                        Log.d(Tag.COMMON_LOG, "onNext model " + response.toString())
-////                        callback?.success(response)
-//                    }
-//
-//                    override fun onComplete() {
-//                        Log.d(Tag.COMMON_LOG, "onComplete")
-//                    }
-//
-//                    override fun onSubscribe(d: Disposable) {
-//                        Log.d(Tag.COMMON_LOG, "onSubscribe")
-//                    }
-//
-//                    override fun onError(e: Throwable) {
-//                        Log.d(Tag.COMMON_LOG, "onError")
-////                        callback?.failure(true, e?.message)
-//                    }
-//
-//                })
-//        }
+
+        }
     }
 
 }

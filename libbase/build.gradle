@@ -34,6 +34,18 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+
+    implementation deps.network.retrofit
+    implementation deps.rxjava.rxjava
+    implementation deps.rxjava.rxandroid
+    implementation deps.network.retrofit_rxjava
+    implementation deps.network.retrofit_converter_gson
+    implementation deps.network.logging
+
+    implementation deps.json.fastjson
+    // fix kotlin no construct fun
+    deps.kotlin_reflect
 }
 repositories {
     mavenCentral()
